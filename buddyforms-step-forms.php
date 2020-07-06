@@ -63,7 +63,7 @@ function buddyforms_step_forms_load_plugin_textdomain() {
 function buddyforms_step_forms_scripts() {
 
 	wp_enqueue_style( 'step-forms.css', BUDDYFORMS_STEP_FORMS_ASSETS . '/resources/jqtree/jqtree.css' );
-	//wp_enqueue_style( 'tree-css', BUDDYFORMS_STEP_FORMS_ASSETS . '/css/buddyforms.step.forms.css' );
+	// wp_enqueue_style( 'tree-css', BUDDYFORMS_STEP_FORMS_ASSETS . '/css/buddyforms.step.forms.css' );
 
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
