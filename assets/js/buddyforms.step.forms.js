@@ -1,3 +1,6 @@
+const KEY_ENTER = 13;
+
+
 jQuery(document).ready(function (jQuery) {
 
     //
@@ -13,7 +16,6 @@ jQuery(document).ready(function (jQuery) {
         form_slug = jQuery("#step-forms-form-select").val();
         jQuery('#buddyforms-step-forms-tabs a[href="#tab' + form_slug + '"]')[0].click()
     });
-
 
     //
     // Create a New Step
@@ -165,26 +167,40 @@ function buddyforms_get_step($form_slug) {
             // Handle a click on the edit link
             $tree.on('click', '.edit', function (e) {
                 // Get the id from the 'node-id' data property
-                var node_id = jQuery(e.target).data('node-id');
+                const node_id = jQuery(e.target).data('node-id');
 
                 // Get the node from the tree
-                var node = $tree.tree('getNodeById', node_id);
+                const node = $tree.tree('getNodeById', node_id);
+
+                const updateNode = function(node) {
+                    const name = jQuery(`input[name="node_${node.id}"]`).val();
+                    $tree.tree('updateNode', node, name);
+                }
 
                 if (node) {
                     // Display the node name
 
-
-                    jQuery('<form><input value="' + node.name + '" type="text" style="z-index:10000" name="node_name"><br></form>').dialog({
+                    jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_${node.id}"><br></form>`).dialog({
                         modal: true,
                         buttons: {
                             'OK': function () {
-                                var name = jQuery('input[name="node_name"]').val();
-                                $tree.tree('updateNode', node, name);
+                                updateNode(node);
                                 jQuery(this).dialog('close');
                             },
                             'Cancel': function () {
                                 jQuery(this).dialog('close');
                             }
+                        }
+                    });
+
+                    //
+                    // Avoid keypress redirections 
+                    //
+                    jQuery(`input[name="node_${node.id}"]`).keypress(function(e) {
+                        if (KEY_ENTER === e.keyCode) {
+                            e.preventDefault();
+                            updateNode(node);
+                            jQuery(this).parents('.ui-dialog-content').dialog('close');
                         }
                     });
                 }
