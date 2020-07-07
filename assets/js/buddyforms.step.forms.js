@@ -173,22 +173,22 @@ function buddyforms_get_step($form_slug) {
                 const node = $tree.tree('getNodeById', node_id);
 
                 const updateNode = function(node) {
-                    const name = jQuery(`input[name="node_${node.id}"]`).val();
+                    const name = jQuery(`input[name="node_name_${node.id}"]`).val();
                     $tree.tree('updateNode', node, name);
                 }
 
                 if (node) {
                     // Display the node name
 
-                    jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_${node.id}"><br></form>`).dialog({
+                    jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_name_${node.id}"><br></form>`).dialog({
                         modal: true,
                         buttons: {
                             'OK': function () {
                                 updateNode(node);
-                                jQuery(this).dialog('close');
+                                jQuery(this).dialog('close').dialog('destroy');
                             },
                             'Cancel': function () {
-                                jQuery(this).dialog('close');
+                                jQuery(this).dialog('close').dialog('destroy');
                             }
                         }
                     });
@@ -196,11 +196,11 @@ function buddyforms_get_step($form_slug) {
                     //
                     // Avoid keypress redirections 
                     //
-                    jQuery(`input[name="node_${node.id}"]`).keypress(function(e) {
+                    jQuery(`input[name="node_name_${node.id}"]`).keypress(function(e) {
                         if (KEY_ENTER === e.keyCode) {
                             e.preventDefault();
                             updateNode(node);
-                            jQuery(this).parents('.ui-dialog-content').dialog('close');
+                            jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
                         }
                     });
                 }
