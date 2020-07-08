@@ -20,7 +20,7 @@ jQuery(document).ready(function (jQuery) {
     //
     // Create a New Step
     //
-    jQuery(document.body).on('click', '.buddyforms-step-forms-create-step', function () {
+    jQuery(document.body).on('click', '.buddyforms-sf-create-step', function () {
         $form_slug = jQuery(this).attr('data-slug');
 
 
@@ -45,7 +45,7 @@ jQuery(document).ready(function (jQuery) {
     //
     // Save the step form
     //
-    jQuery(document.body).on('click', '.buddyforms-step-forms-save', function () {
+    jQuery(document.body).on('click', '.buddyforms-sf-save', function () {
 
         $form_slug = jQuery(this).attr('data-slug');
 

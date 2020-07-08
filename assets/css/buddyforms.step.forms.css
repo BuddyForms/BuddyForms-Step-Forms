@@ -1,16 +1,161 @@
-.jqtree-folder {
-    display: inline-grid;
-    margin-left: 30px;
+/* NOTE: Use the prefix "bfsf" in all CSS selectors */
+
+/******************
+**** Normalize ****
+*******************/
+.buddyforms-sf * { box-sizing: border-box;}
+.buddyforms-sf {
+    font-family: 'Roboto';
+}
+.buddyforms-sf h1,
+.buddyforms-sf h2 {
+    font-weight: 500;
+    margin: 0;
+}
+.buddyforms-sf h1 {
+    font-size: 2rem;
+}
+.buddyforms-sf h2 {
+    color: #818181;
+    font-size: 1.2rem; 
 }
 
-ul.jqtree-tree ul.jqtree_common {
-    margin-left: 0;
+.buddyforms-sf a {
+    font-weight: 400;
+    text-decoration: none;
+    color: #6C6C6C;
+    font-size: 0.85rem;
+}
+.buddyforms-sf a:hover {
+    color: #4e4e4e;
 }
 
-ul.jqtree-tree.jqtree-title {
-    margin-left: 10px;
+/*****************
+**** Override ****
+******************/
+.buddyforms-sf .dashicons {
+    font-size: inherit;   
 }
 
-ul.jqtree_common.jqtree-tree.li {
-    display: inline-grid;
+
+/***************
+**** Layout ****
+****************/
+.buddyforms-sf {
+    margin: 20px 0 0 -20px;
 }
+.buddyforms-sf-row {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.buddyforms-sf-row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.buddyforms-sf-col-left,
+.buddyforms-sf-col-right {
+    height: 75vh;
+}
+
+.buddyforms-sf-col-left {
+    float: left;
+    width: 69.99%;
+}
+.buddyforms-sf-col-right {
+    float: right;
+    width: 29.99%;
+}
+
+/**************
+**** Utils ****
+***************/
+.buddyforms-sf .buddyforms-sf-ml-3 { margin-right: 3rem; }
+.buddyforms-sf .buddyforms-sf-mr-3 { margin-left: 3rem; }
+.buddyforms-sf .buddyforms-sf-mt-3 { margin-top: 3rem; }
+.buddyforms-sf .buddyforms-sf-mb-3 { margin-bottom: 3rem; }
+.buddyforms-sf .buddyforms-sf-my-3 { margin: 3rem 0; }
+.buddyforms-sf .buddyforms-sf-mx-3 { margin: 0 3rem; }
+.buddyforms-sf .buddyforms-sf-ml-2 { margin-right: 2rem; }
+.buddyforms-sf .buddyforms-sf-mr-2 { margin-left: 2rem; }
+.buddyforms-sf .buddyforms-sf-mt-2 { margin-top: 2rem; }
+.buddyforms-sf .buddyforms-sf-mb-2 { margin-bottom: 2rem; }
+.buddyforms-sf .buddyforms-sf-my-2 { margin: 2rem 0; }
+.buddyforms-sf .buddyforms-sf-mx-2 { margin: 0 2rem; }
+.buddyforms-sf .buddyforms-sf-box {
+    box-shadow: -2px 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(214, 214, 214, 0.35);
+    padding: 15px; 
+}
+.buddyforms-sf .buddyforms-sf-flip {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+/**************
+**** Steps ****
+***************/
+.buddyforms-sf-steps {
+    background-color: rgba(249, 249, 249, 0.5);
+    height: 100%;
+}
+
+.buddyforms-sf-steps > header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    background-color: #F9F9F9;
+}
+
+.buddyforms-sf-steps .buddyforms-sf-select-form {
+    margin-left: 0.8rem;
+    background-color: inherit;
+    border: 1px solid rgba(214, 214, 214, 0.85);
+}
+
+.buddyforms-sf-steps > header > *:last-child {
+    margin-left: auto;
+}
+
+.buddyforms-sf-steps > section {
+    padding: 20px 20px;
+}
+
+/****************
+**** Sidebar ****
+*****************/
+.buddyforms-sf-sidebar {
+    height: 100%;
+    background-color: #F9F9F9;
+}
+
+
+
+/*******************
+**** Responsive ****
+********************/
+
+@media(max-width: 1200px) {}
+
+@media(max-width: 992px) {
+
+    /*Layout mobile mode*/
+    .buddyforms-sf-col-left,
+    .buddyforms-sf-col-right {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+    .buddyforms-sf-col-left { height: 65vh; }
+    .buddyforms-sf-col-right { height: 25vh; }
+}
+
+
+@media(max-width: 768px) {}
+
+@media(max-width: 576px) {}
