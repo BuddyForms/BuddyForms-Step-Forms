@@ -3,15 +3,19 @@
 /******************
 **** Normalize ****
 *******************/
-.buddyforms-sf * { box-sizing: border-box;}
+.buddyforms-sf * { 
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 .buddyforms-sf {
     font-family: 'Roboto';
 }
 .buddyforms-sf h1,
 .buddyforms-sf h2 {
     font-weight: 500;
-    margin: 0;
 }
+
 .buddyforms-sf h1 {
     font-size: 2rem;
 }
@@ -34,6 +38,7 @@
 **** Override ****
 ******************/
 .buddyforms-sf .dashicons {
+    line-height: 1.4;
     font-size: inherit;   
 }
 
@@ -86,6 +91,11 @@
     box-shadow: -2px 4px 8px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(214, 214, 214, 0.35);
     padding: 15px; 
+}
+.buddyforms-sf .buddyforms-sf-box-small { 
+    box-shadow: -2px 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(214, 214, 214, 0.35);
+    padding: 5px 10px; 
 }
 .buddyforms-sf .buddyforms-sf-flip {
     -moz-transform: scaleX(-1);
