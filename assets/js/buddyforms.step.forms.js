@@ -144,16 +144,16 @@ function buddyforms_get_step($form_slug) {
                     }
                 },
                 onCanMoveTo: function (moved_node, target_node, position) {
-                    console.log(target_node);
-                    if (target_node.parent.name) {
-                        return false;
-                    } else {
 
-                        if (position !== 'inside') {
-                            return false;
-                        }
-                        return true;
+                    if (!target_node.parent.name && position !== 'inside') {
+                        return false;
                     }
+                    
+                    if (target_node.parent.name && position === 'inside') {
+                        return false;
+                    }
+
+                    return true;
                 },
                 onCreateLi: function (node, $li) {
                     // Append a link to the jqtree-element div.
@@ -167,7 +167,7 @@ function buddyforms_get_step($form_slug) {
             // Handle a click on the edit link
             $tree.on('click', '.edit', function (e) {
                 // Get the id from the 'node-id' data property
-                const node_id = jQuery(e.target).data('node-id');
+                const node_id = jQuery(e.currentTarget).data('node-id');
 
                 // Get the node from the tree
                 const node = $tree.tree('getNodeById', node_id);
