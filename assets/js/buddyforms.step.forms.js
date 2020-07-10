@@ -143,11 +143,16 @@ function buddyforms_get_step($form_slug) {
             });
 
             $tree.on('click', '.buddyforms-sf-add-step-after', function(e){
+
+                e.stopPropagation();
+
                 const node_id = jQuery(e.currentTarget).data('node-id');
                 buddyforms_create_step($tree, node_id, 'after');
             });
 
             $tree.on('click', '.buddyforms-sf-add-step-before', function(e){
+
+                e.stopPropagation();
 
                 const node_id = jQuery(e.currentTarget).data('node-id');
                 buddyforms_create_step($tree, node_id, 'before');
@@ -155,6 +160,9 @@ function buddyforms_get_step($form_slug) {
             });
 
             $tree.on('click', '.buddyforms-sf-delete-step', function(e) {
+
+                e.stopPropagation();
+
                 const node_id = jQuery(e.currentTarget).data('node-id');
                 buddyforms_delete_step($tree, node_id);
             });
