@@ -18,31 +18,6 @@ jQuery(document).ready(function (jQuery) {
     });
 
     //
-    // Create a New Step
-    //
-    jQuery(document.body).on('click', '.buddyforms-sf-create-step', function () {
-        $form_slug = jQuery(this).attr('data-slug');
-
-
-        var tree_data = jQuery('#step-' + $form_slug).tree('getTree');
-
-        var node1 = tree_data.children.slice(-1)[0];
-
-        var count = tree_data.children.length + 1
-
-        jQuery('#step-' + $form_slug).tree(
-            'addNodeAfter',
-            {
-                name: 'Step ',
-                id: count,
-                children: []
-            },
-            node1
-        );
-    });
-
-
-    //
     // Save the step form
     //
     jQuery(document.body).on('click', '.buddyforms-sf-save', function () {
@@ -117,9 +92,9 @@ function buddyforms_get_step($form_slug) {
         success: function (response) {
             console.log(response);
 
-            var $tree = jQuery('#step-' + $form_slug).tree({
+            const $tree = jQuery('#step-' + $form_slug).tree({
                 dragAndDrop: true,
-                autoOpen: 0,
+                autoOpen: true,
                 //tabIndex: 1,
                 data: response,
                 selectable: true,
@@ -156,16 +131,36 @@ function buddyforms_get_step($form_slug) {
                     return true;
                 },
                 onCreateLi: function (node, $li) {
-                    // Append a link to the jqtree-element div.
-                    // The link has an url '#node-[id]' and a data property 'node-id'.
-                    $li.find('.jqtree-title-folder').append(
-                        '<a href="#node-' + node.id + '" class="edit" data-node-id="' + node.id + '"> Rename</a>'
-                    );
+                    if (!node.parent.name) {
+                        buddyforms_init_step_node(node, $li);
+                    } else {
+                        $li.find('.jqtree-element')
+                           .addClass('buddyforms-sf-field')
+                           .addClass('buddyforms-sf-box-small')
+                        ;
+                    }
                 }
             });
 
+            $tree.on('click', '.buddyforms-sf-add-step-after', function(e){
+                const node_id = jQuery(e.currentTarget).data('node-id');
+                buddyforms_create_step($tree, node_id, 'after');
+            });
+
+            $tree.on('click', '.buddyforms-sf-add-step-before', function(e){
+
+                const node_id = jQuery(e.currentTarget).data('node-id');
+                buddyforms_create_step($tree, node_id, 'before');
+
+            });
+
+            $tree.on('click', '.buddyforms-sf-delete-step', function(e) {
+                const node_id = jQuery(e.currentTarget).data('node-id');
+                buddyforms_delete_step($tree, node_id);
+            });
+
             // Handle a click on the edit link
-            $tree.on('click', '.edit', function (e) {
+            $tree.on('click', '.buddyforms-sf-edit-step', function (e) {
                 // Get the id from the 'node-id' data property
                 const node_id = jQuery(e.currentTarget).data('node-id');
 
@@ -245,4 +240,79 @@ function buddyforms_get_step($form_slug) {
         }
 
     });
+}
+
+
+/**
+ * @param {object} tree 
+ * @param {int|string} node_id
+ * @param {string} direction [after, before]
+ */
+function buddyforms_create_step($tree, node_id, direction) {
+
+    direction = direction || 'after';
+
+    const tree_obj = $tree.tree('getTree');
+    const node = $tree.tree('getNodeById', node_id);
+    const new_node_id = tree_obj.children.length + 1;
+
+    const new_node = $tree.tree(
+        direction === 'after' ? 'addNodeAfter' : 'addNodeBefore',
+        {
+            name: `Step`,
+            id: new_node_id,
+            children: []
+        },
+        node
+    );
+
+    buddyforms_init_step_node(new_node);
+}
+
+/**
+ * @param {object} tree 
+ * @param {int|string} node_id
+ */
+function buddyforms_delete_step($tree, node_id) {
+    const node = $tree.tree('getNodeById', node_id);
+    $tree.tree('removeNode', node);
+}
+
+function buddyforms_init_step_node(node, $el) {
+
+    $el = $el || jQuery(node.element);
+
+    if (!$el) {
+        return;
+    }
+
+    if (node.parent.name) {
+        return;
+    }
+
+    $el.children('.jqtree-element')
+        .addClass('buddyforms-sf-step')
+        .html(`
+            <header class="buddyforms-sf-step-header buddyforms-sf-box-small">
+                <p>
+                    ${node.name}
+                    <a href="#node-${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn" data-node-id="${node.id}">
+                        <span class="iconify" data-icon="dashicons:edit" data-inline="false"></span>
+                    </a>
+                </p>
+                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-add-step-before buddyforms-sf-btn">
+                    Add Before
+                    <span class="iconify" data-icon="dashicons-insert-before" data-inline="false"></span>
+                </a>
+                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-add-step-after buddyforms-sf-btn">
+                    Add After
+                    <span class="iconify" data-icon="dashicons-insert-after" data-inline="false"></span>
+                </a>
+                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-delete-step buddyforms-sf-btn">
+                    Delete
+                    <span class="iconify" data-icon="dashicons:trash" data-inline="false"></span>
+                </a>
+            </header>
+        `)
+    ;
 }

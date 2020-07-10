@@ -77,6 +77,8 @@ function buddyforms_step_forms_scripts() {
 	wp_enqueue_style( 'wp-jquery-ui-tabs' );
 	wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
+
+	wp_enqueue_script( 'dashion-icons', 'https://code.iconify.design/1/1.0.7/iconify.min.js');
 	wp_register_script( 'tree-js', BUDDYFORMS_STEP_FORMS_ASSETS . '/resources/jqtree/tree.jquery.js' , array( 'jquery' ) );
 	wp_enqueue_script( 'tree-js' );
 

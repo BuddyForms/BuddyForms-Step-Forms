@@ -42,7 +42,7 @@ function buddyforms_step_forms_screen_content() {
 
 						<a href="#">
 							<?php _e( 'Do you need help? You can find documentation here.', 'buddyforms-step-forms' ) ?>
-							<span class="dashicons dashicons-book buddyforms-sf-flip"></span>
+							<span class="iconify buddyforms-sf-flip" data-icon="dashicons:book" data-inline="false"></span>
 						</a>
 					</header>
 					<section>
@@ -61,8 +61,8 @@ function buddyforms_step_forms_screen_content() {
 								foreach ( $buddyforms as $slug => $buddyform ) {
 									echo '<div id="tab' . $slug . '">';
 									echo '<div id="step-' . $slug . '"></div>';
-									echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-create-step">'. __('Add New Step') . '</a></div>';
-									echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-save">' . __('Save Steps') . '</a></div>';
+									// echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-create-step">'. __('Add New Step') . '</a></div>'; /* Was moved to  buddyforms_get_step */
+									// echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-save">' . __('Save Steps') . '</a></div>';
 									echo '</div>';
 									?>
 									<script>
