@@ -138,10 +138,7 @@ function buddyforms_get_step($form_slug) {
                     if (!node.parent.name) {
                         buddyforms_init_step_node(node, $li);
                     } else {
-                        $li.find('.jqtree-element')
-                           .addClass('buddyforms-sf-field')
-                           .addClass('buddyforms-sf-box-small')
-                        ;
+                        buddyforms_init_field_node(node, $li);
                     }
                 }
             });
@@ -163,96 +160,95 @@ function buddyforms_get_step($form_slug) {
 
             });
 
-            $tree.on('click', '.buddyforms-sf-delete-step', function(e) {
+            // $tree.on('click', '.buddyforms-sf-delete-step', function(e) {
 
-                e.stopPropagation();
+            //     e.stopPropagation();
 
-                const node_id = jQuery(e.currentTarget).data('node-id');
-                buddyforms_delete_step($tree, node_id);
-            });
+            //     const node_id = jQuery(e.currentTarget).data('node-id');
+            //     buddyforms_delete_step($tree, node_id);
+            // });
 
             // Handle a click on the edit link
-            $tree.on('click', '.buddyforms-sf-edit-step', function (e) {
-                // Get the id from the 'node-id' data property
-                const node_id = jQuery(e.currentTarget).data('node-id');
+            // $tree.on('click', '.buddyforms-sf-edit-step', function (e) {
+            //     // Get the id from the 'node-id' data property
+            //     const node_id = jQuery(e.currentTarget).data('node-id');
 
-                // Get the node from the tree
-                const node = $tree.tree('getNodeById', node_id);
+            //     // Get the node from the tree
+            //     const node = $tree.tree('getNodeById', node_id);
 
-                const updateNode = function(node) {
-                    const name = jQuery(`input[name="node_name_${node.id}"]`).val();
-                    $tree.tree('updateNode', node, name);
-                }
+            //     const updateNode = function(node) {
+            //         const name = jQuery(`input[name="node_name_${node.id}"]`).val();
+            //         $tree.tree('updateNode', node, name);
+            //     }
 
-                if (node) {
-                    // Display the node name
+            //     if (node) {
+            //         // Display the node name
 
-                    jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_name_${node.id}"><br></form>`).dialog({
-                        modal: true,
-                        buttons: {
-                            'OK': function () {
-                                updateNode(node);
-                                jQuery(this).dialog('close').dialog('destroy');
-                            },
-                            'Cancel': function () {
-                                jQuery(this).dialog('close').dialog('destroy');
-                            }
-                        }
-                    });
+            //         jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_name_${node.id}"><br></form>`).dialog({
+            //             modal: true,
+            //             buttons: {
+            //                 'OK': function () {
+            //                     updateNode(node);
+            //                     jQuery(this).dialog('close').dialog('destroy');
+            //                 },
+            //                 'Cancel': function () {
+            //                     jQuery(this).dialog('close').dialog('destroy');
+            //                 }
+            //             }
+            //         });
 
-                    //
-                    // Avoid keypress redirections 
-                    //
-                    jQuery(`input[name="node_name_${node.id}"]`).keypress(function(e) {
-                        if (KEY_ENTER === e.keyCode) {
-                            e.preventDefault();
-                            updateNode(node);
-                            jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
-                        }
-                    });
-                }
-            });
+            //         //
+            //         // Avoid keypress redirections 
+            //         //
+            //         jQuery(`input[name="node_name_${node.id}"]`).keypress(function(e) {
+            //             if (KEY_ENTER === e.keyCode) {
+            //                 e.preventDefault();
+            //                 updateNode(node);
+            //                 jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
+            //             }
+            //         });
+            //     }
+            // });
 
+            //
+            // Toogle Steps
+            //
             $tree.on('click', '.buddyforms-sf-step-header', function(e) {
+                e.stopPropagation();
+
                 const node_id = jQuery(e.currentTarget).data('node-id');
                 buddyforms_toggle_step($tree, node_id);
             });
 
-
-            $tree.on(
-                'tree.move',
-                function (event) {
-                    event.preventDefault();
-                    //console.log(event);
-
-                    if (typeof event.move_info.target_node.parent === 'object') {
-                    } else {
-
-                    }
-                    event.move_info.do_move();
+            //
+            // Display Field Sidebar Menu
+            //
+            $tree.on('tree.select', function (event) {
+                if (event.node) {
+                    jQuery('#step-form-node-options').html(`Field Sidebar menu: ${event.node.name}`);
                 }
-            );
-
+            });
 
             //
-            // Display tab options on select
+            // Display Step Sidebar Menu
             //
-            $tree.on(
-                'tree.select',
-                function (event) {
-                    if (event.node) {
-                        // node was selected
-                        var node = event.node;
+            $tree.on('click', '.buddyforms-sf-step-options', function(e){
+                e.stopPropagation();
 
+                const node_id = jQuery(e.currentTarget).data('node-id');
+                const node = $tree.tree('getNodeById', node_id);
+                jQuery('#step-form-node-options').html(`Step Sidebar menu: ${node.name}`);
+            });
 
-                        jQuery('#step-form-node-options').html(node.name);
-                    } else {
-                        // event.node is null
-                        // a node was deselected
-                        // e.previous_node contains the deselected node
-                    }
+            //
+            // Display Global Sidebar Menu
+            //
+            jQuery('.buddyforms-sf').on('click', function(e) {            
+                if(!jQuery(event.target).closest(".buddyforms-sf-field, .buddyforms-sf-sidebar, a, select").length){ 
+                    $tree.tree('selectNode', null);
+                    jQuery('#step-form-node-options').html('Global Sidebar menu');          
                 }
-            );
+            });
 
         }
 
@@ -319,12 +315,7 @@ function buddyforms_init_step_node(node, $el) {
         .children('.jqtree-element')
         .html(`
             <header class="buddyforms-sf-step-header buddyforms-sf-box-small" data-node-id="${node.id}">
-                <p>
-                    ${node.name}
-                    <a href="#node-${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn" data-node-id="${node.id}">
-                        <span class="iconify" data-icon="dashicons:edit" data-inline="false"></span>
-                    </a>
-                </p>
+                <p>${node.name}</p>
                 <a href="#" data-node-id="${node.id}" class="buddyforms-sf-add-step-before buddyforms-sf-btn">
                     Add Before
                     <span class="iconify" data-icon="dashicons-insert-before" data-inline="false"></span>
@@ -333,11 +324,18 @@ function buddyforms_init_step_node(node, $el) {
                     Add After
                     <span class="iconify" data-icon="dashicons-insert-after" data-inline="false"></span>
                 </a>
-                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-delete-step buddyforms-sf-btn">
-                    Delete
-                    <span class="iconify" data-icon="dashicons:trash" data-inline="false"></span>
+                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-step-options buddyforms-sf-btn">
+                    Step Options
+                    <span class="iconify" data-icon="dashicons:admin-generic" data-inline="false"></span>
                 </a>
             </header>
         `)
+    ;
+}
+
+function buddyforms_init_field_node(node, $li) {
+    $li.find('.jqtree-element')
+       .addClass('buddyforms-sf-field')
+       .addClass('buddyforms-sf-box-small')
     ;
 }
