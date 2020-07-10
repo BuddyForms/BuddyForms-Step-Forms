@@ -201,6 +201,11 @@ function buddyforms_get_step($form_slug) {
                 }
             });
 
+            $tree.on('click', '.buddyforms-sf-step-header', function(e) {
+                const node_id = jQuery(e.currentTarget).data('node-id');
+                buddyforms_toggle_step($tree, node_id);
+            });
+
 
             $tree.on(
                 'tree.move',
@@ -278,6 +283,14 @@ function buddyforms_delete_step($tree, node_id) {
     $tree.tree('removeNode', node);
 }
 
+function buddyforms_toggle_step($tree, node_id) {
+    const node = $tree.tree('getNodeById', node_id);
+    $tree.tree( 
+        !node.is_open ? 'openNode' : 'closeNode', 
+        node
+    );
+}
+
 function buddyforms_init_step_node(node, $el) {
 
     $el = $el || jQuery(node.element);
@@ -290,10 +303,10 @@ function buddyforms_init_step_node(node, $el) {
         return;
     }
 
-    $el.children('.jqtree-element')
-        .addClass('buddyforms-sf-step')
+    $el.addClass('buddyforms-sf-step')
+        .children('.jqtree-element')
         .html(`
-            <header class="buddyforms-sf-step-header buddyforms-sf-box-small">
+            <header class="buddyforms-sf-step-header buddyforms-sf-box-small" data-node-id="${node.id}">
                 <p>
                     ${node.name}
                     <a href="#node-${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn" data-node-id="${node.id}">
