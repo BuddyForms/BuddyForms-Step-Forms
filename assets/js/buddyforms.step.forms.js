@@ -107,24 +107,28 @@ function buddyforms_get_step($form_slug) {
                         return false;
                     }
                 },
-                onCanMove: function (node) {
-
-                    console.log(node.parent.parent);
-
-                    if (!node.parent.parent) {
-                        // Example: Cannot move root node)
-                        return false;
-                    } else {
-                        return true;
-                    }
-                },
                 onCanMoveTo: function (moved_node, target_node, position) {
 
-                    if (!target_node.parent.name && position !== 'inside') {
+                    const moved_node_is = !moved_node.parent.parent ? 'parent' : 'child';
+                    const target_node_is = !target_node.parent.parent ? 'parent' : 'child';
+
+                    // Child node can't be moved after or before a parent node.
+                    if (target_node_is === 'parent' && moved_node_is === 'child' && position !== 'inside') {
                         return false;
                     }
                     
-                    if (target_node.parent.name && position === 'inside') {
+                    // Any node can't be place inside a child node.
+                    if (target_node_is === 'child' && position === 'inside') {
+                        return false;
+                    }
+
+                    // Parent node can't be moved after or before a child node.
+                    if (target_node_is === 'child' && moved_node_is === 'parent') {
+                        return false;
+                    }
+
+                    // Parent node can't be place inside to another parent node.
+                    if (target_node_is === 'parent' && moved_node_is === 'parent' && position === 'inside') {
                         return false;
                     }
 
