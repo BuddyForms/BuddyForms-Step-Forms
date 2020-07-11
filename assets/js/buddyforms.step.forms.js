@@ -23,27 +23,7 @@ jQuery(document).ready(function (jQuery) {
     jQuery(document.body).on('click', '.buddyforms-sf-save', function () {
 
         $form_slug = jQuery(this).attr('data-slug');
-
-
-        var tree_data = jQuery('#step-' + $form_slug).tree('getTree');
-
         json = jQuery('#step-' + $form_slug).tree('toJson');
-
-
-        // var node1 = jQuery('#step-' + $form_slug).tree('getNodeByName', 'contact');
-
-        console.log(json);
-
-
-        /*  jQuery('#step-' + $form_slug).tree(
-              'addParentNode',
-              {
-                  name: 'new_parent',
-                  id: 456
-              },
-              node1
-          );*/
-
 
         jQuery.ajax({
 
@@ -87,15 +67,12 @@ function buddyforms_get_step($form_slug) {
             "form_slug": $form_slug
         },
         error: function (xhr, status, error) {
-            console.log(error);
+            console.error(error);
         },
         success: function (response) {
-            console.log(response);
-
             const $tree = jQuery('#step-' + $form_slug).tree({
                 dragAndDrop: true,
                 autoOpen: true,
-                //tabIndex: 1,
                 data: response,
                 selectable: true,
                 onCanSelectNode: function (node) {
@@ -143,35 +120,33 @@ function buddyforms_get_step($form_slug) {
                 }
             });
 
-            $tree.on('click', '.buddyforms-sf-add-step-after', function(e){
+            $tree.on('click', '.buddyforms-sf-add-step-after', function(event){
+                event.stopPropagation();
 
-                e.stopPropagation();
-
-                const node_id = jQuery(e.currentTarget).data('node-id');
+                const node_id = jQuery(event.currentTarget).data('node-id');
                 buddyforms_create_step($tree, node_id, 'after');
             });
 
-            $tree.on('click', '.buddyforms-sf-add-step-before', function(e){
+            $tree.on('click', '.buddyforms-sf-add-step-before', function(event){
+                event.stopPropagation();
 
-                e.stopPropagation();
-
-                const node_id = jQuery(e.currentTarget).data('node-id');
+                const node_id = jQuery(event.currentTarget).data('node-id');
                 buddyforms_create_step($tree, node_id, 'before');
 
             });
 
-            // $tree.on('click', '.buddyforms-sf-delete-step', function(e) {
+            // $tree.on('click', '.buddyforms-sf-delete-step', function(event) {
 
-            //     e.stopPropagation();
+            //     event.stopPropagation();
 
-            //     const node_id = jQuery(e.currentTarget).data('node-id');
+            //     const node_id = jQuery(event.currentTarget).data('node-id');
             //     buddyforms_delete_step($tree, node_id);
             // });
 
             // Handle a click on the edit link
-            // $tree.on('click', '.buddyforms-sf-edit-step', function (e) {
+            // $tree.on('click', '.buddyforms-sf-edit-step', function (event) {
             //     // Get the id from the 'node-id' data property
-            //     const node_id = jQuery(e.currentTarget).data('node-id');
+            //     const node_id = jQuery(event.currentTarget).data('node-id');
 
             //     // Get the node from the tree
             //     const node = $tree.tree('getNodeById', node_id);
@@ -200,9 +175,9 @@ function buddyforms_get_step($form_slug) {
             //         //
             //         // Avoid keypress redirections 
             //         //
-            //         jQuery(`input[name="node_name_${node.id}"]`).keypress(function(e) {
-            //             if (KEY_ENTER === e.keyCode) {
-            //                 e.preventDefault();
+            //         jQuery(`input[name="node_name_${node.id}"]`).keypress(function(event) {
+            //             if (KEY_ENTER === event.keyCode) {
+            //                 event.preventDefault();
             //                 updateNode(node);
             //                 jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
             //             }
@@ -213,10 +188,10 @@ function buddyforms_get_step($form_slug) {
             //
             // Toogle Steps
             //
-            $tree.on('click', '.buddyforms-sf-step-header', function(e) {
-                e.stopPropagation();
+            $tree.on('click', '.buddyforms-sf-step-header', function(event) {
+                event.stopPropagation();
 
-                const node_id = jQuery(e.currentTarget).data('node-id');
+                const node_id = jQuery(event.currentTarget).data('node-id');
                 buddyforms_toggle_step($tree, node_id);
             });
 
@@ -232,10 +207,10 @@ function buddyforms_get_step($form_slug) {
             //
             // Display Step Sidebar Menu
             //
-            $tree.on('click', '.buddyforms-sf-step-options', function(e){
-                e.stopPropagation();
+            $tree.on('click', '.buddyforms-sf-step-options', function(event){
+                event.stopPropagation();
 
-                const node_id = jQuery(e.currentTarget).data('node-id');
+                const node_id = jQuery(event.currentTarget).data('node-id');
                 const node = $tree.tree('getNodeById', node_id);
                 jQuery('#step-form-node-options').html(`Step Sidebar menu: ${node.name}`);
             });
@@ -243,7 +218,7 @@ function buddyforms_get_step($form_slug) {
             //
             // Display Global Sidebar Menu
             //
-            jQuery('.buddyforms-sf').on('click', function(e) {            
+            jQuery(document.body).on('click', '.buddyforms-sf', function(event) {            
                 if(!jQuery(event.target).closest(".buddyforms-sf-field, .buddyforms-sf-sidebar, a, select").length){ 
                     $tree.tree('selectNode', null);
                     jQuery('#step-form-node-options').html('Global Sidebar menu');          
@@ -257,7 +232,7 @@ function buddyforms_get_step($form_slug) {
 
 
 /**
- * @param {object} tree 
+ * @param {JQuery object} $tree 
  * @param {int|string} node_id
  * @param {string} direction [after, before]
  */
@@ -283,7 +258,7 @@ function buddyforms_create_step($tree, node_id, direction) {
 }
 
 /**
- * @param {object} tree 
+ * @param {JQuery object} $tree 
  * @param {int|string} node_id
  */
 function buddyforms_delete_step($tree, node_id) {
@@ -291,6 +266,11 @@ function buddyforms_delete_step($tree, node_id) {
     $tree.tree('removeNode', node);
 }
 
+/**
+ * 
+ * @param {JQuery object} $tree 
+ * @param {int|string} node_id 
+ */
 function buddyforms_toggle_step($tree, node_id) {
     const node = $tree.tree('getNodeById', node_id);
     $tree.tree( 
@@ -299,6 +279,10 @@ function buddyforms_toggle_step($tree, node_id) {
     );
 }
 
+/**
+ * @param {object} node 
+ * @param {jQuery object} $el 
+ */
 function buddyforms_init_step_node(node, $el) {
 
     $el = $el || jQuery(node.element);
@@ -333,6 +317,10 @@ function buddyforms_init_step_node(node, $el) {
     ;
 }
 
+/**
+ * @param {object} node 
+ * @param {JQuery object} $li 
+ */
 function buddyforms_init_field_node(node, $li) {
     $li.find('.jqtree-element')
        .addClass('buddyforms-sf-field')
