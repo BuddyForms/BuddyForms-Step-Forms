@@ -14,80 +14,90 @@ function buddyforms_step_forms_screen_content() {
 	<div id="bf_admin_wrap" class="buddyforms-sf">
 
 		<div class="buddyforms-sf-row">
-			<h1 class="buddyforms-sf-my-3">
+			<h1 class="buddyforms-sf-my-2">
 				<?php _e( 'Step Forms Creator', 'buddyforms-step-forms' ) ?>
 			</h1>
 		</div>
 
 		<div class="buddyforms-sf-row">
-			<div class="buddyforms-sf-col-left">
-				<div class="buddyforms-sf-steps">
-					<header class="buddyforms-sf-box">
-						<h2>
-							<?php _e( 'Select Form', 'buddyforms-step-forms' ) ?>
-						</h2>
-						
-						<select id="step-forms-form-select" class="buddyforms-sf-select-form">
-							<?php
-							if ( is_array( $buddyforms ) ) {
-								foreach ( $buddyforms as $slug => $buddyform ) {
-									echo '<option value="' . $slug . '"><a href="#tab' . $slug . '" >' . $buddyform['name'] . '</a></option>';
-									foreach ( $buddyform['form_fields'] as $key => $form_field ) {
-										//echo '<li> -> ' . $form_field['name'] . '</li>';
-									}
-								}
+			<header class="buddyforms-sf-header buddyforms-sf-box">
+				<h2>
+					<?php _e( 'Select Form', 'buddyforms-step-forms' ) ?>
+				</h2>
+				
+				<select id="step-forms-form-select" class="buddyforms-sf-select-form">
+					<?php
+					if ( is_array( $buddyforms ) ) {
+						foreach ( $buddyforms as $slug => $buddyform ) {
+							echo '<option value="' . $slug . '"><a href="#tab-' . $slug . '" >' . $buddyform['name'] . '</a></option>';
+							foreach ( $buddyform['form_fields'] as $key => $form_field ) {
+								//echo '<li> -> ' . $form_field['name'] . '</li>';
 							}
-							?>
-						</select>
+						}
+					}
+					?>
+				</select>
+	
+				<a href="#">
+					<?php _e( 'Do you need help? You can find documentation here.', 'buddyforms-step-forms' ) ?>
+					<span class="iconify buddyforms-sf-flip" data-icon="dashicons:book" data-inline="false"></span>
+				</a>
+			</header>
+		</div>
 
-						<a href="#">
-							<?php _e( 'Do you need help? You can find documentation here.', 'buddyforms-step-forms' ) ?>
-							<span class="iconify buddyforms-sf-flip" data-icon="dashicons:book" data-inline="false"></span>
-						</a>
-					</header>
-					<section>
-						<div id="buddyforms-step-forms-tabs">
-							<ul style="display: none">
-								<?php
-								if ( is_array( $buddyforms ) ) {
-									foreach ( $buddyforms as $slug => $buddyform ) {
-										echo '<li><a href="#tab' . $slug . '" >' . $buddyform['name'] . '</a></li>';
-									}
-								}
-								?>
-							</ul>
+		<div class="buddyforms-sf-row">
+
+			<div id="buddyforms-step-forms-tabs">
+
+				<?php if ( is_array($buddyforms) ) : ?>
+
+					<ul id="buddyforms-step-forms-tabs-list" style="display: none">
+						<?php 
+						if ( is_array( $buddyforms ) ) :
+							foreach ( $buddyforms as $slug => $buddyform ) : ?>
+								<li data-slug="<?php echo $slug; ?>">
+									<a href="#tab-<?php echo $slug; ?>"><?php echo $buddyform['name'] ?></a>
+								</li>
 							<?php
-							if ( is_array( $buddyforms ) ) {
-								foreach ( $buddyforms as $slug => $buddyform ) {
-									echo '<div id="tab' . $slug . '">';
-									echo '<div id="step-' . $slug . '"></div>';
-									// echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-create-step">'. __('Add New Step') . '</a></div>'; /* Was moved to  buddyforms_get_step */
-									// echo '<div><a href="#" data-slug="' . $slug . '" class="buddyforms-sf-save">' . __('Save Steps') . '</a></div>';
-									echo '</div>';
-									?>
+							endforeach;
+						endif;
+						?>
+					</ul>
+
+					<?php foreach ($buddyforms as $slug => $buddyform) : ?>
+
+						<div id="tab-<?php echo $slug; ?>" class="buddyforms-st-tab buddyforms-st-on-viewport">
+						
+							<div class="buddyforms-sf-col-left">
+								<div class="buddyforms-sf-steps">
+									<div id="step-<?php echo $slug ?>"></div>
+
 									<script>
 										jQuery(document).ready(function(jQuery) {
-											buddyforms_get_step("<?php echo $slug ?>");
+											buddyforms_sf_get_step("<?php echo $slug ?>");
 										});
 									</script>
-									<?php
-								}
-							}
-							?>
+								</div>
+							</div>
+							<div class="buddyforms-sf-col-right">
+								<div class="buddyforms-sf-sidebar buddyforms-sf-box">
+									<div class="buddyfoms-st-global-sidebar show">
+										<h2>Form name: <?php echo $slug; ?></h2>
+										
+										<div class="buddyfoms-st-sidebar-actions">
+											<button class="button button-primary">Save Step Form</button>
+										</div>
+									</div>
+									<div class="buddyfoms-st-step-sidebar"></div>
+									<div class="buddyfoms-st-field-sidebar"></div>
+								</div>
+							</div>
+
 						</div>
 
-					</section>
-				</div>
-			</div>
-			<div class="buddyforms-sf-col-right">
-				<div class="buddyforms-sf-sidebar buddyforms-sf-box">
-					<header>
-						<h2>
-							<?php _e( 'Hooks and Integrations', 'buddyforms-step-forms' ) ?>
-						</h2>
-					</header>
-					<div id="step-form-node-options">Da is was</div>
-				</div>
+					<?php endforeach; ?>
+
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

@@ -80,18 +80,21 @@
     clear: both;
     display: table;
 }
-.buddyforms-sf-col-left,
-.buddyforms-sf-col-right {
-    height: 75vh;
+.buddyforms-st-on-viewport {
+    height: 80vh;
+}
+.buddyforms-st-on-viewport > *,
+.buddyforms-st-on-viewport > * > * {
+    height: 100%;
 }
 
 .buddyforms-sf-col-left {
     float: left;
-    width: 69.99%;
+    width: calc(100% - 350px);
 }
 .buddyforms-sf-col-right {
     float: right;
-    width: 29.99%;
+    width: 350px;
 }
 
 /**************
@@ -134,15 +137,11 @@
     color: #0073aa;
 }
 
-/**************
-**** Steps ****
-***************/
-.buddyforms-sf-steps {
-    background-color: rgba(249, 249, 249, 0.5);
-    height: 100%;
-}
 
-.buddyforms-sf-steps > header {
+/*******************
+**** Step Forms ****
+********************/
+.buddyforms-sf-header {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -151,19 +150,25 @@
     height: 10%;
 }
 
-.buddyforms-sf-steps .buddyforms-sf-select-form {
+.buddyforms-sf-header .buddyforms-sf-select-form {
     margin-left: 0.8rem;
     background-color: inherit;
     border: 1px solid rgba(214, 214, 214, 0.85);
 }
 
-.buddyforms-sf-steps > header > *:last-child {
+.buddyforms-sf-header > *:last-child {
     margin-left: auto;
 }
 
-.buddyforms-sf-steps > section {
+/**************
+**** Steps ****
+***************/
+.buddyforms-sf-steps {
+    background-color: rgba(249, 249, 249, 0.5);
+}
+
+.buddyforms-sf-steps {
     padding: 20px 20px;
-    height: 90%;
     overflow-y: auto;
 }
 
@@ -221,11 +226,24 @@
 **** Sidebar ****
 *****************/
 .buddyforms-sf-sidebar {
-    height: 100%;
     background-color: #F9F9F9;
 }
 
+.buddyforms-sf-sidebar .buddyfoms-st-global-sidebar,
+.buddyforms-sf-sidebar .buddyfoms-st-step-sidebar,
+.buddyforms-sf-sidebar .buddyfoms-st-field-sidebar {
+    display: none;
+    position: relative;
+    height: 100%;
+}
 
+.buddyforms-sf-sidebar .show { display: block !important; }
+
+.buddyfoms-st-sidebar-actions {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
 
 /*******************
 **** Responsive ****
@@ -242,8 +260,8 @@
         display: block;
         width: 100%;
     }
-    .buddyforms-sf-col-left { height: 65vh; }
-    .buddyforms-sf-col-right { height: 25vh; }
+    .buddyforms-sf-col-left { height: 80vh; }
+    .buddyforms-sf-col-right { height: auto; }
 }
 
 
