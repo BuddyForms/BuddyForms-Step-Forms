@@ -59,7 +59,7 @@ jQuery(document).ready(function (jQuery) {
             success: function (response) {
                 const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
                 $sidebar.find('.buddyfoms-st-global-sidebar .buddyfoms-st-shortcode')
-                    .html(`Shortcode: ${response[form_slug].shortcode}`)
+                    .html(`<strong>Shortcode</strong>: ${response[form_slug].shortcode}`)
                 ;
 
                 alert('Step form Saved');
