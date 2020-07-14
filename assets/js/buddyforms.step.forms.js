@@ -9,6 +9,8 @@ jQuery(document).ready(function (jQuery) {
     jQuery("#buddyforms-step-forms-tabs").tabs();
 
 
+    jQuery('#step-forms-form-select').val(buddyforms_sf_get_current_form());
+
     //
     // Switch the Tabs with a select
     //
