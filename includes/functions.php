@@ -72,6 +72,10 @@ function buddyforms_step_forms_save_step() {
 	$json = str_replace( '\\', "", $json );
 	$steps_forms = get_option('buddyforms_step_forms');
 
+	if (!is_array($steps_forms)) {
+		$steps_forms = array();
+	}
+
 	$steps_forms[ $form_slug ] = array(
 		'shortcode' => '[buddyforms_step_form form_slug="'. $form_slug . '"]',
 		'steps' => json_decode( $json )
