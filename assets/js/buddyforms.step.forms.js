@@ -38,28 +38,29 @@ jQuery(document).ready(function (jQuery) {
     //
     jQuery(document.body).on('click', '.buddyforms-sf-save', function () {
 
-        $form_slug = jQuery(this).attr('data-slug');
-        json = jQuery('#step-' + $form_slug).tree('toJson');
+        const form_slug = jQuery(this).attr('data-slug');
+        const json = jQuery('#step-' + form_slug).tree('toJson');
 
         jQuery.ajax({
 
             url: buddyformsGlobal.admin_url,
             type: 'POST',
             dataType: 'json',
-            dragAndDrop: true,
-            tabIndex: 1,
             data: {
                 "action": "buddyforms_step_forms_save_step",
-                "form_slug": $form_slug,
+                "form_slug": form_slug,
                 "json": json
             },
             error: function (xhr, status, error) {
                 console.log(error);
             },
             success: function (response) {
-                console.log(response);
+                const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
+                $sidebar.find('.buddyfoms-st-global-sidebar .buddyfoms-st-shortcode')
+                    .html(`Shortcode: ${response[form_slug].shortcode}`)
+                ;
 
-                alert('Steps Saved')
+                alert('Step form Saved');
             }
 
         });

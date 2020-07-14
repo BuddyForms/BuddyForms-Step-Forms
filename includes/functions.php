@@ -29,24 +29,22 @@ function buddyforms_step_forms_get_steps() {
 
 	$new_form_elements = $buddyforms[ $form_slug ]['form_fields'];
 
+	$steps = $step_forms[ $form_slug ][ 'steps' ];
 
+	foreach ( $steps as $key => $step ) {
 
-
-	foreach ( $step_forms[ $form_slug ] as $key => $step_form ) {
-
-		$step_form = get_object_vars( $step_form );
+		$step = get_object_vars( $step );
 
 		$result[] = array(
-			'name'     => $step_form['name'],
-			'id'       => $step_form['id'],
-			'children' => $step_form['children']
+			'name'     => $step['name'],
+			'id'       => $step['id'],
+			'children' => isset($step['children']) ? $step['children'] : []
 		);
 
-		foreach ( $step_form['children'] as $field_id => $child ) {
+		foreach ( $step['children'] as $field_id => $child ) {
 			$child = get_object_vars( $child );
 			unset( $new_form_elements[ $child['id'] ] );
 		}
-
 
 	}
 
@@ -72,9 +70,15 @@ function buddyforms_step_forms_save_step() {
 	$json      = $_POST['json'];
 
 	$json = str_replace( '\\', "", $json );
+	$steps_forms = get_option('buddyforms_step_forms');
 
-	$steps_forms[ $form_slug ] = json_decode( $json );
+	$steps_forms[ $form_slug ] = array(
+		'shortcode' => '[buddyforms_step_form form_slug="'. $form_slug . '"]',
+		'steps' => json_decode( $json )
+	);
 
 	update_option( 'buddyforms_step_forms', $steps_forms );
 
+	echo json_encode($steps_forms);
+	die();
 }

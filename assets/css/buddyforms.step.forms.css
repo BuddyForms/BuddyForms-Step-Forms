@@ -81,7 +81,7 @@
     display: table;
 }
 .buddyforms-st-on-viewport {
-    height: 80vh;
+    height: 75vh;
 }
 .buddyforms-st-on-viewport > *,
 .buddyforms-st-on-viewport > * > * {
@@ -238,6 +238,10 @@
 }
 
 .buddyforms-sf-sidebar .show { display: block !important; }
+
+.buddyforms-sf-sidebar .buddyfoms-st-global-sidebar .buddyfoms-st-shortcode {
+    margin: 2rem 0;
+}
 
 .buddyfoms-st-sidebar-actions {
     position: absolute;

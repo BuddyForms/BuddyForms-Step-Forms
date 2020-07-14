@@ -63,8 +63,13 @@ function buddyforms_step_forms_screen_content() {
 						endif;
 						?>
 					</ul>
+					
 
-					<?php foreach ($buddyforms as $slug => $buddyform) : ?>
+					<?php 
+					
+					$buddyforms_step_forms = get_option('buddyforms_step_forms');
+
+					foreach ($buddyforms as $slug => $buddyform) : ?>
 
 						<div id="tab-<?php echo $slug; ?>" class="buddyforms-st-tab buddyforms-st-on-viewport">
 						
@@ -83,9 +88,33 @@ function buddyforms_step_forms_screen_content() {
 								<div class="buddyforms-sf-sidebar buddyforms-sf-box">
 									<div class="buddyfoms-st-global-sidebar show">
 										<h2>Form name: <?php echo $slug; ?></h2>
-										
+
+										<?php
+
+										$shortcode = '';
+
+										if (isset($buddyforms_step_forms[$slug]) 
+											&& $step_form = $buddyforms_step_forms[$slug]
+										) {
+											$shortcode = $step_form['shortcode'];
+										}
+										?>
+
+										<p class="buddyfoms-st-shortcode">
+											<?php 
+												if (!empty($shortcode)) {
+													echo '<strong>Shortcode:</strong> ' . $shortcode;
+												}
+											?> 
+										</p>
+
 										<div class="buddyfoms-st-sidebar-actions">
-											<button class="button button-primary">Save Step Form</button>
+											<button 
+												data-slug="<?php echo $slug; ?>" 
+												class="button button-primary buddyforms-sf-save"
+											>
+												Save Step Form
+											</button>
 										</div>
 									</div>
 									<div class="buddyfoms-st-step-sidebar"></div>
