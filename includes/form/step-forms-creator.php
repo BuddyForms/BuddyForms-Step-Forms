@@ -69,7 +69,7 @@ function buddyforms_step_forms_screen_content() {
 					
 					$buddyforms_step_forms = get_option('buddyforms_step_forms');
 
-					foreach ($buddyforms as $slug => $buddyform) : ?>
+					foreach ( $buddyforms as $slug => $buddyform ) : ?>
 
 						<div id="tab-<?php echo $slug; ?>" class="buddyforms-st-tab buddyforms-st-on-viewport">
 						
@@ -93,8 +93,8 @@ function buddyforms_step_forms_screen_content() {
 
 										$shortcode = '';
 
-										if (isset($buddyforms_step_forms[$slug]) 
-											&& $step_form = $buddyforms_step_forms[$slug]
+										if ( isset( $buddyforms_step_forms[ $slug ] ) 
+											&& $step_form = $buddyforms_step_forms[ $slug ]
 										) {
 											$shortcode = $step_form['shortcode'];
 										}
@@ -102,7 +102,7 @@ function buddyforms_step_forms_screen_content() {
 
 										<p class="buddyfoms-st-shortcode">
 											<?php 
-												if (!empty($shortcode)) {
+												if ( !empty( $shortcode ) ) {
 													echo '<strong>Shortcode:</strong> ' . $shortcode;
 												}
 											?> 
@@ -113,7 +113,7 @@ function buddyforms_step_forms_screen_content() {
 												data-slug="<?php echo $slug; ?>" 
 												class="button button-primary buddyforms-sf-save"
 											>
-												Save Step Form
+												<?php _e( 'Save Step Form', 'buddyforms-step-forms' ) ?>
 											</button>
 										</div>
 									</div>

@@ -72,7 +72,7 @@ function buddyforms_step_forms_save_step() {
 	$json = str_replace( '\\', "", $json );
 	$steps_forms = get_option('buddyforms_step_forms');
 
-	if (!is_array($steps_forms)) {
+	if ( !is_array( $steps_forms ) ) {
 		$steps_forms = array();
 	}
 
@@ -83,7 +83,7 @@ function buddyforms_step_forms_save_step() {
 
 	update_option( 'buddyforms_step_forms', $steps_forms );
 
-	echo json_encode($steps_forms);
+	echo json_encode( $steps_forms );
 	die();
 }
 
