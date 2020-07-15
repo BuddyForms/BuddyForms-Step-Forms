@@ -68,6 +68,66 @@ jQuery(document).ready(function (jQuery) {
         });
     });
 
+    jQuery(document.body).on('click', '.buddyforms-sf-delete-step', function(event) {
+
+        event.stopPropagation();
+        
+        const form_slug = buddyforms_sf_get_current_form();
+        const $tree = jQuery(`#step-${form_slug}`);
+        const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
+        const node_id = jQuery(event.currentTarget).data('node-id');
+        
+        buddyforms_sf_delete_step($tree, node_id);
+        buddyforms_sf_show_sidebar($sidebar, 'global');
+    });
+
+    // Handle a click on the edit link
+    jQuery(document.body).on('click', '.buddyforms-sf-edit-step', function (event) {
+
+        const form_slug = buddyforms_sf_get_current_form();
+        const $tree = jQuery(`#step-${form_slug}`);
+        const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
+
+        // Get the id from the 'node-id' data property
+        const node_id = jQuery(event.currentTarget).data('node-id');
+
+        // Get the node from the tree
+        const node = $tree.tree('getNodeById', node_id);
+
+        const updateNode = function(node) {
+            const name = jQuery(`input[name="node_name_${node.id}"]`).val();
+            $tree.tree('updateNode', node, name);
+        }
+
+        if (node) {
+            // Display the node name
+
+            jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_name_${node.id}"><br></form>`).dialog({
+                modal: true,
+                buttons: {
+                    'OK': function () {
+                        updateNode(node);
+                        jQuery(this).dialog('close').dialog('destroy');
+                        buddyforms_st_show_step_sidebar($sidebar, node);
+                    },
+                    'Cancel': function () {
+                        jQuery(this).dialog('close').dialog('destroy');
+                    }
+                }
+            });
+
+            //
+            // Avoid keypress redirections 
+            //
+            jQuery(`input[name="node_name_${node.id}"]`).keypress(function(event) {
+                if (KEY_ENTER === event.keyCode) {
+                    event.preventDefault();
+                    updateNode(node);
+                    jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
+                }
+            });
+        }
+    });
 });
 
 
@@ -154,56 +214,6 @@ function buddyforms_sf_get_step($form_slug) {
 
             });
 
-            // $tree.on('click', '.buddyforms-sf-delete-step', function(event) {
-
-            //     event.stopPropagation();
-
-            //     const node_id = jQuery(event.currentTarget).data('node-id');
-            //     buddyforms_sf_delete_step($tree, node_id);
-            // });
-
-            // Handle a click on the edit link
-            // $tree.on('click', '.buddyforms-sf-edit-step', function (event) {
-            //     // Get the id from the 'node-id' data property
-            //     const node_id = jQuery(event.currentTarget).data('node-id');
-
-            //     // Get the node from the tree
-            //     const node = $tree.tree('getNodeById', node_id);
-
-            //     const updateNode = function(node) {
-            //         const name = jQuery(`input[name="node_name_${node.id}"]`).val();
-            //         $tree.tree('updateNode', node, name);
-            //     }
-
-            //     if (node) {
-            //         // Display the node name
-
-            //         jQuery(`<form><input value="${node.name}" type="text" style="z-index:10000" name="node_name_${node.id}"><br></form>`).dialog({
-            //             modal: true,
-            //             buttons: {
-            //                 'OK': function () {
-            //                     updateNode(node);
-            //                     jQuery(this).dialog('close').dialog('destroy');
-            //                 },
-            //                 'Cancel': function () {
-            //                     jQuery(this).dialog('close').dialog('destroy');
-            //                 }
-            //             }
-            //         });
-
-            //         //
-            //         // Avoid keypress redirections 
-            //         //
-            //         jQuery(`input[name="node_name_${node.id}"]`).keypress(function(event) {
-            //             if (KEY_ENTER === event.keyCode) {
-            //                 event.preventDefault();
-            //                 updateNode(node);
-            //                 jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
-            //             }
-            //         });
-            //     }
-            // });
-
             //
             // Toogle Steps
             //
@@ -239,10 +249,7 @@ function buddyforms_sf_get_step($form_slug) {
                 const node = $tree.tree('getNodeById', node_id);
                 const $sidebar = $tree.closest('.buddyforms-st-tab').find('.buddyforms-sf-sidebar');
 
-                buddyforms_sf_show_sidebar($sidebar, 'step');
-                $sidebar.find('.buddyfoms-st-step-sidebar').html(`
-                    <h2>Step Name: ${node.name}</h2>
-                `);
+                buddyforms_st_show_step_sidebar($sidebar, node);
             });
         }
 
@@ -356,6 +363,28 @@ function buddyforms_sf_show_sidebar($sidebar, $show_to) {
     $show_to = $show_to || 'global';
     $sidebar.find('> *').removeClass('show');
     $sidebar.find(`> .buddyfoms-st-${$show_to}-sidebar`).addClass('show');
+}
+
+function buddyforms_st_show_step_sidebar($sidebar, node) {
+    $sidebar.find('.buddyfoms-st-step-sidebar').html(`
+        <h2>
+            Step Name: ${node.name}
+            <button data-node-id="${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn">
+                <span class="iconify" data-icon="dashicons:edit-large" data-inline="false"></span>
+            </button>
+        </h2>
+        <div class="buddyfoms-st-sidebar-actions">
+            <button 
+                data-node-id="${node.id}"
+                class="buddyforms-sf-btn-danger buddyforms-sf-delete-step"
+            >
+                Delete Step
+                <span class="iconify" data-icon="dashicons:trash" data-inline="false"></span>
+            </button>
+        </div>
+    `);
+
+    buddyforms_sf_show_sidebar($sidebar, 'step');
 }
 
 function buddyforms_sf_get_current_form() {

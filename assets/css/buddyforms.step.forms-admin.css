@@ -141,6 +141,14 @@
     color: #0073aa;
 }
 
+.buddyforms-sf .buddyforms-sf-btn-danger {
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #D54E21;
+    background-color: unset;
+    border: none;
+}
+
 
 /*******************
 **** Step Forms ****
