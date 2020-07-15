@@ -19,7 +19,7 @@ function buddyforms_step_forms_get_steps() {
 		}
 		$result[] = array(
 			'name'     => 'Step 1',
-			'id'       => 'step1',
+			'id'       => 1,
 			'children' => $form_elements
 		);
 		echo json_encode( $result );
@@ -85,26 +85,4 @@ function buddyforms_step_forms_save_step() {
 
 	echo json_encode( $steps_forms );
 	die();
-}
-
-add_shortcode( 'buddyforms_step_form', 'buddyforms_step_form_shortcode' );
-function buddyforms_step_form_shortcode( $attr ) {
-	$attr = shortcode_atts( array(
-		'form_slug' => false,
-	), $attr );
-
-	if ( !$attr['form_slug'] ) {
-		return '';
-	}
-
-	$form_slug = $attr['form_slug'];
-	$steps_forms = get_option('buddyforms_step_forms');
-
-	if ( !isset( $steps_forms[ $form_slug ] ) ) {
-		return '';
-	}
-
-	$step_form = $steps_forms[ $form_slug ];
-
-	return '<h1>'. $form_slug . '</h1>';
 }

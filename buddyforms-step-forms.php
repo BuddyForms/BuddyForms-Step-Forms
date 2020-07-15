@@ -38,13 +38,14 @@ function buddyforms_step_forms_includes() {
 	define( 'BUDDYFORMS_STEP_FORMS_ASSETS', plugins_url( 'assets/', __FILE__ ) );
 	define( 'BUDDYFORMS_STEP_FORMS_VERSION', '0.0.1' );
 
-	include_once( dirname( __FILE__ ) . '/includes/functions.php' );
-
+	include_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );	
+	
 	// Only Check for requirements in the admin
 	if ( ! is_admin() ) {
 		return;
 	}
-
+	
+	include_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	include_once( dirname( __FILE__ ) . '/includes/form/form-builder-elements.php' );
 	include_once( dirname( __FILE__ ) . '/includes/form/step-forms-creator.php' );
 
