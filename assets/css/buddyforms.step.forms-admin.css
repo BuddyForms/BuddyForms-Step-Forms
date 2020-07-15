@@ -131,7 +131,11 @@
     -ms-filter: "FlipH";
 }
 .buddyforms-sf .buddyforms-sf-btn {
+    cursor: pointer;
+    background-color: unset;
+    border: none;
     color: #6C6C6C;
+    font-size: 0.85rem;
 }
 .buddyforms-sf .buddyforms-sf-btn:hover {
     color: #0073aa;

@@ -38,7 +38,7 @@ function buddyforms_step_forms_screen_content() {
 					?>
 				</select>
 	
-				<a href="#">
+				<a href="#" target="_blank">
 					<?php _e( 'Do you need help? You can find documentation here.', 'buddyforms-step-forms' ) ?>
 					<span class="iconify buddyforms-sf-flip" data-icon="dashicons:book" data-inline="false"></span>
 				</a>

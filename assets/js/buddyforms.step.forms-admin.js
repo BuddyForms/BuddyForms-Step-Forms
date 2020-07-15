@@ -319,18 +319,18 @@ function buddyforms_sf_init_step_node(node, $el) {
         .html(`
             <header class="buddyforms-sf-step-header buddyforms-sf-box-small" data-node-id="${node.id}">
                 <p>${node.name}</p>
-                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-add-step-before buddyforms-sf-btn">
+                <button data-node-id="${node.id}" class="buddyforms-sf-add-step-before buddyforms-sf-btn">
                     Add Before
                     <span class="iconify" data-icon="dashicons-insert-before" data-inline="false"></span>
-                </a>
-                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-add-step-after buddyforms-sf-btn">
+                </button>
+                <button data-node-id="${node.id}" class="buddyforms-sf-add-step-after buddyforms-sf-btn">
                     Add After
                     <span class="iconify" data-icon="dashicons-insert-after" data-inline="false"></span>
-                </a>
-                <a href="#" data-node-id="${node.id}" class="buddyforms-sf-step-options buddyforms-sf-btn">
+                </button>
+                <button data-node-id="${node.id}" class="buddyforms-sf-step-options buddyforms-sf-btn">
                     Step Options
                     <span class="iconify" data-icon="dashicons:admin-generic" data-inline="false"></span>
-                </a>
+                </button>
             </header>
         `)
     ;
