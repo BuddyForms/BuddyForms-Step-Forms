@@ -44,7 +44,7 @@ function buddyforms_step_forms_includes() {
 	if ( ! is_admin() ) {
 		return;
 	}
-	
+
 	include_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	include_once( dirname( __FILE__ ) . '/includes/form/form-builder-elements.php' );
 	include_once( dirname( __FILE__ ) . '/includes/form/step-forms-creator.php' );
