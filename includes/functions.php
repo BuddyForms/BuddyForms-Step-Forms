@@ -33,8 +33,6 @@ function buddyforms_step_forms_get_steps() {
 
 	foreach ( $steps as $key => $step ) {
 
-		$step = get_object_vars( $step );
-
 		$result[] = array(
 			'name'     => $step['name'],
 			'id'       => $step['id'],
@@ -42,7 +40,6 @@ function buddyforms_step_forms_get_steps() {
 		);
 
 		foreach ( $step['children'] as $field_id => $child ) {
-			$child = get_object_vars( $child );
 			unset( $new_form_elements[ $child['id'] ] );
 		}
 
@@ -78,7 +75,7 @@ function buddyforms_step_forms_save_step() {
 
 	$steps_forms[ $form_slug ] = array(
 		'shortcode' => '[buddyforms_step_form form_slug="'. $form_slug . '"]',
-		'steps' => json_decode( $json )
+		'steps' => json_decode( $json, true )
 	);
 
 	update_option( 'buddyforms_step_forms', $steps_forms );

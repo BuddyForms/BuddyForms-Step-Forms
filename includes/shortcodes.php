@@ -25,8 +25,6 @@ function buddyforms_step_form_shortcode( $attr ) {
 	
 	$output .='<ul class="nav">';
 	foreach ( $step_form['steps'] as $step ) {
-		$step = get_object_vars($step);
-
 		$output .= '<li>';
 		$output .= '<a class="nav-link" href="#step-'. $step['id'] . '">';
 		$output .= $step['name'];
@@ -38,14 +36,12 @@ function buddyforms_step_form_shortcode( $attr ) {
 	$output .= '<div class="tab-content">';
 
 	foreach ( $step_form['steps'] as $step ) {
-		$step = get_object_vars($step);
-
+		
 		$output .= '<div id="step-'. $step['id'] . '" class="tab-pane" role="tabpanel">';
 
 		$fields = $step['children'];
 
 		foreach ( $fields as $field ) {
-			$field = get_object_vars($field);
 			$output .= '<p>Field Name: '. $field['name'] . '</p>';
 		}
 
