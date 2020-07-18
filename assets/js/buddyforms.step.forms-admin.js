@@ -124,6 +124,7 @@ jQuery(document).ready(function (jQuery) {
                     event.preventDefault();
                     updateNode(node);
                     jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
+                    buddyforms_st_show_step_sidebar($sidebar, node);
                 }
             });
         }
