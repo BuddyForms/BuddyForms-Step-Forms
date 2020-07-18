@@ -5,3 +5,12 @@
 .sw > ul.nav > li {
     margin: 0;
 }
+
+/**************
+**** Utils ****
+***************/
+.buddyforms-sf-clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
