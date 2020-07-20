@@ -266,16 +266,13 @@ function buddyforms_sf_get_step($form_slug) {
 function buddyforms_sf_create_step($tree, node_id, direction) {
 
     direction = direction || 'after';
-
-    const tree_obj = $tree.tree('getTree');
     const node = $tree.tree('getNodeById', node_id);
-    const new_node_id = tree_obj.children.length + 1;
 
     const new_node = $tree.tree(
         direction === 'after' ? 'addNodeAfter' : 'addNodeBefore',
         {
             name: `Step`,
-            id: new_node_id,
+            id: Date.now(),
             children: []
         },
         node
@@ -305,7 +302,6 @@ function buddyforms_sf_delete_step($tree, node_id) {
     }
 
     $tree.tree('removeNode', node);
-    buddyforms_sf_rebuil_steps_index($tree);
 }
 
 function buddyforms_sf_step_is_erasable(node) {
@@ -420,19 +416,4 @@ function buddyforms_st_show_step_sidebar($sidebar, node) {
 
 function buddyforms_sf_get_current_form() {
     return jQuery('#buddyforms-step-forms-tabs-list').find('.ui-state-active').data('slug');
-}
-
-function buddyforms_sf_rebuil_steps_index($tree) {
-    const tree = $tree.tree('getTree');
-    const nodes = tree.children;    
-    for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
-        $tree.tree(
-            'updateNode',
-            node,
-            {
-                id: i + 1,
-            }
-        );
-    }
 }
