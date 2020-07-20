@@ -290,7 +290,36 @@ function buddyforms_sf_create_step($tree, node_id, direction) {
  */
 function buddyforms_sf_delete_step($tree, node_id) {
     const node = $tree.tree('getNodeById', node_id);
+    const node_children = [...node.children];
+
+    if (Array.isArray(node_children) && node_children.length) {
+
+        if (!buddyforms_sf_step_is_erasable(node)) {
+            return;
+        }
+
+        const node_children = [...node.children];
+        node_children.forEach(function(child) {
+            $tree.tree('moveNode', child, backup_node, 'inside');
+        });
+    }
+
     $tree.tree('removeNode', node);
+    buddyforms_sf_rebuil_steps_index($tree);
+}
+
+function buddyforms_sf_step_is_erasable(node) {
+    const sibling_nodes = node.parent.children;
+    const node_index = sibling_nodes.findIndex(function(item) {
+        return item.id === node.id;
+    });
+
+    backup_node = (node_index - 1 >= 0) 
+        ? sibling_nodes[node_index - 1] 
+        : sibling_nodes[sibling_nodes.length - 1];
+
+
+    return backup_node !== node; 
 }
 
 /**
@@ -378,6 +407,7 @@ function buddyforms_st_show_step_sidebar($sidebar, node) {
             <button 
                 data-node-id="${node.id}"
                 class="buddyforms-sf-btn-danger buddyforms-sf-delete-step"
+                ${!buddyforms_sf_step_is_erasable(node) ? 'disabled' : ''}
             >
                 Delete Step
                 <span class="iconify" data-icon="dashicons:trash" data-inline="false"></span>
@@ -390,4 +420,19 @@ function buddyforms_st_show_step_sidebar($sidebar, node) {
 
 function buddyforms_sf_get_current_form() {
     return jQuery('#buddyforms-step-forms-tabs-list').find('.ui-state-active').data('slug');
+}
+
+function buddyforms_sf_rebuil_steps_index($tree) {
+    const tree = $tree.tree('getTree');
+    const nodes = tree.children;    
+    for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        $tree.tree(
+            'updateNode',
+            node,
+            {
+                id: i + 1,
+            }
+        );
+    }
 }
