@@ -76,6 +76,10 @@ function buddyforms_step_forms_before_render_element_loop( $elements, $form_slug
 			$step = $steps[$ii];
 			$fields = $step['children'];
 
+			if (!is_array($fields) || empty($fields)) {
+				continue;
+			}
+
 			// $field_id is in this step?
 			$elm_pos = array_search($field_id, array_column($fields, 'id'));
 			if ($elm_pos !== false) {
