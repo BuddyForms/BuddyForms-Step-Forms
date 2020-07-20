@@ -58,7 +58,7 @@ jQuery(document).ready(function (jQuery) {
             },
             success: function (response) {
                 const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
-                $sidebar.find('.buddyfoms-st-global-sidebar .buddyfoms-st-shortcode')
+                $sidebar.find('.buddyfoms-sf-global-sidebar .buddyfoms-sf-shortcode')
                     .html(`<strong>Shortcode</strong>: ${response[form_slug].shortcode}`)
                 ;
 
@@ -234,7 +234,7 @@ function buddyforms_sf_get_step($form_slug) {
                     const $sidebar = $tree.closest('.buddyforms-st-tab').find('.buddyforms-sf-sidebar');
 
                     buddyforms_sf_show_sidebar($sidebar, 'field');
-                    $sidebar.find('.buddyfoms-st-field-sidebar').html(`
+                    $sidebar.find('.buddyfoms-sf-field-sidebar').html(`
                         <h2>Field Name: ${node.name}</h2>`
                     );
                 }
@@ -388,18 +388,18 @@ function buddyforms_sf_init_field_node(node, $li) {
 function buddyforms_sf_show_sidebar($sidebar, $show_to) {
     $show_to = $show_to || 'global';
     $sidebar.find('> *').removeClass('show');
-    $sidebar.find(`> .buddyfoms-st-${$show_to}-sidebar`).addClass('show');
+    $sidebar.find(`> .buddyfoms-sf-${$show_to}-sidebar`).addClass('show');
 }
 
 function buddyforms_st_show_step_sidebar($sidebar, node) {
-    $sidebar.find('.buddyfoms-st-step-sidebar').html(`
+    $sidebar.find('.buddyfoms-sf-step-sidebar').html(`
         <h2>
             Step Name: ${node.name}
             <button data-node-id="${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn">
                 <span class="iconify" data-icon="dashicons:edit-large" data-inline="false"></span>
             </button>
         </h2>
-        <div class="buddyfoms-st-sidebar-actions">
+        <div class="buddyfoms-sf-sidebar-actions">
             <button 
                 data-node-id="${node.id}"
                 class="buddyforms-sf-btn-danger buddyforms-sf-delete-step"

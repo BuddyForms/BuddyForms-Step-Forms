@@ -86,7 +86,7 @@ function buddyforms_step_forms_screen_content() {
 							</div>
 							<div class="buddyforms-sf-col-right">
 								<div class="buddyforms-sf-sidebar buddyforms-sf-box">
-									<div class="buddyfoms-st-global-sidebar show">
+									<div class="buddyfoms-sf-global-sidebar show">
 										<h2>Form name: <?php echo $slug; ?></h2>
 
 										<?php
@@ -100,7 +100,9 @@ function buddyforms_step_forms_screen_content() {
 										}
 										?>
 
-										<p class="buddyfoms-st-shortcode">
+										<p class="buddyforms-sf"></p>
+
+										<p class="buddyfoms-sf-shortcode">
 											<?php 
 												if ( !empty( $shortcode ) ) {
 													echo '<strong>Shortcode:</strong> ' . $shortcode;
@@ -108,9 +110,9 @@ function buddyforms_step_forms_screen_content() {
 											?> 
 										</p>
 									</div>
-									<div class="buddyfoms-st-step-sidebar"></div>
-									<div class="buddyfoms-st-field-sidebar"></div>
-									<div class="buddyfoms-st-global-sidebar-actions">
+									<div class="buddyfoms-sf-step-sidebar"></div>
+									<div class="buddyfoms-sf-field-sidebar"></div>
+									<div class="buddyfoms-sf-global-sidebar-actions">
 										<button 
 											data-slug="<?php echo $slug; ?>" 
 											class="button button-primary buddyforms-sf-save"

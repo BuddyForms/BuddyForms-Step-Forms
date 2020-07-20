@@ -249,9 +249,9 @@
     margin-bottom: 1rem;
 }
 
-.buddyforms-sf-sidebar .buddyfoms-st-global-sidebar,
-.buddyforms-sf-sidebar .buddyfoms-st-step-sidebar,
-.buddyforms-sf-sidebar .buddyfoms-st-field-sidebar {
+.buddyforms-sf-sidebar .buddyfoms-sf-global-sidebar,
+.buddyforms-sf-sidebar .buddyfoms-sf-step-sidebar,
+.buddyforms-sf-sidebar .buddyfoms-sf-field-sidebar {
     position: relative;
     display: none;
     height: calc(100% - 45px);
@@ -259,11 +259,11 @@
 
 .buddyforms-sf-sidebar .show { display: block !important; }
 
-.buddyforms-sf-sidebar .buddyfoms-st-global-sidebar .buddyfoms-st-shortcode {
+.buddyforms-sf-sidebar .buddyfoms-sf-global-sidebar .buddyfoms-sf-shortcode {
     margin: 2rem 0;
 }
 
-.buddyfoms-st-global-sidebar-actions {
+.buddyfoms-sf-global-sidebar-actions {
     height: 45px;
     border-top: 1px solid rgba(214, 214, 214, 0.65);
     padding-top: 15px;
