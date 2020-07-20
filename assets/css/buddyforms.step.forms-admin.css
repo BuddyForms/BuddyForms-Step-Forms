@@ -245,13 +245,16 @@
 .buddyforms-sf-sidebar {
     background-color: #F9F9F9;
 }
+.buddyforms-sf-sidebar h2 {
+    margin-bottom: 1rem;
+}
 
 .buddyforms-sf-sidebar .buddyfoms-st-global-sidebar,
 .buddyforms-sf-sidebar .buddyfoms-st-step-sidebar,
 .buddyforms-sf-sidebar .buddyfoms-st-field-sidebar {
-    display: none;
     position: relative;
-    height: 100%;
+    display: none;
+    height: calc(100% - 45px);
 }
 
 .buddyforms-sf-sidebar .show { display: block !important; }
@@ -260,10 +263,11 @@
     margin: 2rem 0;
 }
 
-.buddyfoms-st-sidebar-actions {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+.buddyfoms-st-global-sidebar-actions {
+    height: 45px;
+    border-top: 1px solid rgba(214, 214, 214, 0.65);
+    padding-top: 15px;
+    text-align: right;
 }
 
 /*******************

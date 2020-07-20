@@ -107,18 +107,17 @@ function buddyforms_step_forms_screen_content() {
 												}
 											?> 
 										</p>
-
-										<div class="buddyfoms-st-sidebar-actions">
-											<button 
-												data-slug="<?php echo $slug; ?>" 
-												class="button button-primary buddyforms-sf-save"
-											>
-												<?php _e( 'Save Step Form', 'buddyforms-step-forms' ) ?>
-											</button>
-										</div>
 									</div>
 									<div class="buddyfoms-st-step-sidebar"></div>
 									<div class="buddyfoms-st-field-sidebar"></div>
+									<div class="buddyfoms-st-global-sidebar-actions">
+										<button 
+											data-slug="<?php echo $slug; ?>" 
+											class="button button-primary buddyforms-sf-save"
+										>
+											<?php _e( 'Save Step Form', 'buddyforms-step-forms' ) ?>
+										</button>
+									</div>
 								</div>
 							</div>
 
