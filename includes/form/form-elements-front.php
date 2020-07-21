@@ -34,7 +34,7 @@ function buddyforms_step_forms_custom_HTML_before_render_element_loop( $form_slu
 
 	$output .= '</ul>';
 	$output .= '<div class="tab-content">';
-	$output .= '<div id="step-'. $firstStep['id'] . '" class="tab-pane buddyforms-sf-clearfix" role="tabpanel">';
+	$output .= '<div id="step-'. $firstStep['id'] . '" class="tab-pane buddyforms-sf-step buddyforms-sf-clearfix" role="tabpanel">';
 
 	return $output;
 }
@@ -147,7 +147,7 @@ function buddyforms_step_forms_custom_HTML_before_render_element( $element, $for
 		$firstStepField = $fields[0];
 
 		if (isset($firstStepField['id']) && $firstStepField['id'] === $element_id) {
-			$output .= '<div id="step-'. $step['id'] . '" class="tab-pane buddyforms-sf-clearfix" role="tabpanel">';
+			$output .= '<div id="step-'. $step['id'] . '" class="tab-pane buddyforms-sf-step buddyforms-sf-clearfix" role="tabpanel">';
 		}
 
 	}
