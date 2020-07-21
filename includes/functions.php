@@ -33,18 +33,24 @@ function buddyforms_step_forms_get_steps() {
 
 	foreach ( $steps as $key => $step ) {
 
+		$children = array();
+
+		foreach ( $step['children'] as $child ) {
+			if ( $new_form_elements[ $child['id'] ] ) {
+				$children[] = $child;
+				unset( $new_form_elements[ $child['id'] ] );
+			}
+		}
+
 		$result[] = array(
 			'name'     => $step['name'],
 			'id'       => $step['id'],
-			'children' => isset($step['children']) ? $step['children'] : []
+			'children' => $children
 		);
-
-		foreach ( $step['children'] as $field_id => $child ) {
-			unset( $new_form_elements[ $child['id'] ] );
-		}
 
 	}
 
+	// Add news elements
 	foreach ( $new_form_elements as $filed_id => $new_form_element ) {
 
 		$field = $buddyforms[ $form_slug ]['form_fields'][$filed_id];
