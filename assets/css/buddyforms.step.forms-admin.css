@@ -189,25 +189,6 @@
     overflow-y: auto;
 }
 
-/* .buddyforms-sf-steps .jqtree-tree {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow-x:scroll;
-    white-space:nowrap;
-    width: 100%;
-    height: 100%;
-}
-
-.buddyforms-sf-steps .jqtree-tree > li {
-    margin-right: 1rem;
-    min-width: 250px;
-    min-height: 250px;
-    display:inline-block;
-    white-space:normal;
-} */
-
 .buddyforms-sf-steps .buddyforms-sf-step .buddyforms-sf-step-header {
     background-color: #F9F9F9;
     display: flex;

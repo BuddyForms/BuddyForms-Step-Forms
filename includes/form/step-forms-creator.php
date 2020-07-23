@@ -30,9 +30,6 @@ function buddyforms_step_forms_screen_content() {
 					if ( is_array( $buddyforms ) ) {
 						foreach ( $buddyforms as $slug => $buddyform ) {
 							echo '<option value="' . $slug . '"><a href="#tab-' . $slug . '" >' . $buddyform['name'] . '</a></option>';
-							foreach ( $buddyform['form_fields'] as $key => $form_field ) {
-								//echo '<li> -> ' . $form_field['name'] . '</li>';
-							}
 						}
 					}
 					?>

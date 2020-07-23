@@ -17,7 +17,7 @@ jQuery(document).ready(function (jQuery) {
     //
     jQuery(document.body).on('change', '#step-forms-form-select', function () {
         form_slug = jQuery("#step-forms-form-select").val();
-        jQuery('#buddyforms-step-forms-tabs').find('a[href="#tab-' + form_slug + '"]')[0].click();
+        jQuery('#buddyforms-step-forms-tabs').find('a[href="#tab-' + form_slug + '"]').click();
     });
 
 
@@ -392,7 +392,7 @@ function buddyforms_sf_show_sidebar(form_slug, $show_to) {
         $show_to = 'global';
     }
 
-    jQuery(`a[href="#tab-${$show_to}-${form_slug}"]`)[0].click();
+    jQuery(`a[href="#tab-${$show_to}-${form_slug}"]`).click();
 }
 
 /**
@@ -450,6 +450,9 @@ function buddyforms_st_show_field_sidebar(form_slug, node) {
     buddyforms_sf_show_sidebar(form_slug, 'block');
 }
 
+/**
+ * @returns {string}
+ */
 function buddyforms_sf_get_current_form() {
     return jQuery('#buddyforms-step-forms-tabs-list').find('.ui-state-active').data('slug');
 }
