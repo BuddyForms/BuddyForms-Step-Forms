@@ -75,7 +75,7 @@ function buddyforms_step_forms_screen_content() {
 						
 							<div class="buddyforms-sf-col-left">
 								<div class="buddyforms-sf-steps">
-									<div id="step-<?php echo $slug ?>"></div>
+									<div data-slug="<?php echo $slug; ?>" id="step-<?php echo $slug ?>"></div>
 
 									<script>
 										jQuery(document).ready(function(jQuery) {
@@ -86,32 +86,47 @@ function buddyforms_step_forms_screen_content() {
 							</div>
 							<div class="buddyforms-sf-col-right">
 								<div class="buddyforms-sf-sidebar buddyforms-sf-box">
-									<div class="buddyfoms-sf-global-sidebar show">
-										<h2>Form name: <?php echo $slug; ?></h2>
+									<div class="buddyforms-sf-sidebar-tabs">
 
-										<?php
+										<ul>
+											<li>
+												<a href="#tab-global-<?php echo $slug; ?>">
+													<?php _e( 'Step Form', 'buddyforms-step-forms' ) ?>
+												</a>
+											</li>
+											<li>
+												<a href="#tab-block-<?php echo $slug; ?>">
+													<?php _e( 'Block', 'buddyforms-step-forms' ) ?>
+												</a>
+											</li>
+										</ul>
 
-										$shortcode = '';
-
-										if ( isset( $buddyforms_step_forms[ $slug ] ) 
-											&& $step_form = $buddyforms_step_forms[ $slug ]
-										) {
-											$shortcode = $step_form['shortcode'];
-										}
-										?>
-
-										<p class="buddyforms-sf"></p>
-
-										<p class="buddyfoms-sf-shortcode">
-											<?php 
-												if ( !empty( $shortcode ) ) {
-													echo '<strong>Shortcode:</strong> ' . $shortcode;
-												}
-											?> 
-										</p>
+										<div id="tab-global-<?php echo $slug; ?>" class="buddyfoms-sf-global-sidebar">
+											<h2>Form name: <?php echo $slug; ?></h2>
+	
+											<?php
+	
+											$shortcode = '';
+	
+											if ( isset( $buddyforms_step_forms[ $slug ] ) 
+												&& $step_form = $buddyforms_step_forms[ $slug ]
+											) {
+												$shortcode = $step_form['shortcode'];
+											}
+											?>
+	
+											<p class="buddyforms-sf"></p>
+	
+											<p class="buddyfoms-sf-shortcode">
+												<?php 
+													if ( !empty( $shortcode ) ) {
+														echo '<strong>Shortcode:</strong> ' . $shortcode;
+													}
+												?> 
+											</p>
+										</div>
+										<div id="tab-block-<?php echo $slug; ?>" class="buddyfoms-sf-block-sidebar"></div>
 									</div>
-									<div class="buddyfoms-sf-step-sidebar"></div>
-									<div class="buddyfoms-sf-field-sidebar"></div>
 									<div class="buddyfoms-sf-global-sidebar-actions">
 										<button 
 											data-slug="<?php echo $slug; ?>" 

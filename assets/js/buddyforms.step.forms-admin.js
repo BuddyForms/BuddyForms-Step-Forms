@@ -7,6 +7,7 @@ jQuery(document).ready(function (jQuery) {
     // Create the tabs
     //
     jQuery("#buddyforms-step-forms-tabs").tabs();
+    jQuery('.buddyforms-sf-sidebar-tabs').tabs();
 
 
     jQuery('#step-forms-form-select').val(buddyforms_sf_get_current_form());
@@ -27,11 +28,7 @@ jQuery(document).ready(function (jQuery) {
         
         if(!jQuery(event.target).closest(".buddyforms-sf-field, .buddyforms-sf-sidebar, a, select").length){ 
             const form_slug = buddyforms_sf_get_current_form();
-            const $tree = jQuery(`#step-${form_slug}`);
-            const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
-            
-            $tree.tree('selectNode', null);
-            buddyforms_sf_show_sidebar($sidebar, 'global');
+            buddyforms_st_show_global_sidebar(form_slug);
         }
     });
 
@@ -77,11 +74,10 @@ jQuery(document).ready(function (jQuery) {
         
         const form_slug = buddyforms_sf_get_current_form();
         const $tree = jQuery(`#step-${form_slug}`);
-        const $sidebar = jQuery(`#tab-${form_slug} .buddyforms-sf-sidebar`);
         const node_id = jQuery(event.currentTarget).data('node-id');
         
         buddyforms_sf_delete_step($tree, node_id);
-        buddyforms_sf_show_sidebar($sidebar, 'global');
+        buddyforms_st_show_global_sidebar(form_slug);
     });
 
     //
@@ -113,7 +109,7 @@ jQuery(document).ready(function (jQuery) {
                     'OK': function () {
                         updateNode(node);
                         jQuery(this).dialog('close').dialog('destroy');
-                        buddyforms_st_show_step_sidebar($sidebar, node);
+                        buddyforms_st_show_step_sidebar(form_slug, node);
                     },
                     'Cancel': function () {
                         jQuery(this).dialog('close').dialog('destroy');
@@ -129,8 +125,7 @@ jQuery(document).ready(function (jQuery) {
                     event.preventDefault();
                     updateNode(node);
                     jQuery(this).parents('.ui-dialog-content').dialog('close').dialog('destroy');
-                    buddyforms_st_show_step_sidebar($sidebar, node);
-                }
+                    buddyforms_st_show_step_sidebar(form_slug, node);                }
             });
         }
     });
@@ -236,12 +231,9 @@ function buddyforms_sf_get_step($form_slug) {
             $tree.on('tree.select', function (event) {
                 if (event.node) {
                     const node = event.node;
-                    const $sidebar = $tree.closest('.buddyforms-st-tab').find('.buddyforms-sf-sidebar');
+                    const form_slug = $tree.data('slug');
 
-                    buddyforms_sf_show_sidebar($sidebar, 'field');
-                    $sidebar.find('.buddyfoms-sf-field-sidebar').html(`
-                        <h2>Field Name: ${node.name}</h2>`
-                    );
+                    buddyforms_st_show_field_sidebar(form_slug, node);
                 }
             });
 
@@ -253,9 +245,9 @@ function buddyforms_sf_get_step($form_slug) {
 
                 const node_id = jQuery(event.currentTarget).data('node-id');
                 const node = $tree.tree('getNodeById', node_id);
-                const $sidebar = $tree.closest('.buddyforms-st-tab').find('.buddyforms-sf-sidebar');
+                const form_slug = $tree.data('slug');
 
-                buddyforms_st_show_step_sidebar($sidebar, node);
+                buddyforms_st_show_step_sidebar(form_slug, node);
             });
         }
 
@@ -272,6 +264,7 @@ function buddyforms_sf_create_step($tree, node_id, direction) {
 
     direction = direction || 'after';
     const node = $tree.tree('getNodeById', node_id);
+    const form_slug = $tree.data('slug');
 
     const new_node = $tree.tree(
         direction === 'after' ? 'addNodeAfter' : 'addNodeBefore',
@@ -284,6 +277,7 @@ function buddyforms_sf_create_step($tree, node_id, direction) {
     );
 
     buddyforms_sf_init_step_node(new_node);
+    buddyforms_st_show_step_sidebar(form_slug, new_node);
 }
 
 /**
@@ -388,21 +382,40 @@ function buddyforms_sf_init_field_node(node, $li) {
 }
 
 /**
- * @param {JQuery Object} $sidebar 
- * @param {string} $show_to [global, step, field]
+ * @param {string} form_slug 
+ * @param {string} $show_to [global, block]
  */
-function buddyforms_sf_show_sidebar($sidebar, $show_to) {
-    $show_to = $show_to || 'global';
-    $sidebar.find('> *').removeClass('show');
-    $sidebar.find(`> .buddyfoms-sf-${$show_to}-sidebar`).addClass('show');
+function buddyforms_sf_show_sidebar(form_slug, $show_to) {
+
+    if (!['global', 'block'].includes($show_to)) {
+        console.error('Missing tab:', $show_to);
+        $show_to = 'global';
+    }
+
+    jQuery(`a[href="#tab-${$show_to}-${form_slug}"]`)[0].click();
 }
 
 /**
- * @param {jQuery object} $sidebar 
+ * @param {string} form_slug 
+ */
+function buddyforms_st_show_global_sidebar(form_slug) {
+    $block_sidebar = jQuery(`#tab-block-${form_slug}`);
+    $block_sidebar.html(`
+        <p class="buddyfoms-sf-no-block-selected">
+            No block selected.
+        </p>
+    `); 
+
+    buddyforms_sf_show_sidebar(form_slug, 'global');
+}
+
+/**
+ * @param {string} form_slug 
  * @param {Object} node 
  */
-function buddyforms_st_show_step_sidebar($sidebar, node) {
-    $sidebar.find('.buddyfoms-sf-step-sidebar').html(`
+function buddyforms_st_show_step_sidebar(form_slug, node) {
+    $block_sidebar = jQuery(`#tab-block-${form_slug}`);
+    $block_sidebar.html(`
         <h2>
             Step Name: ${node.name}
             <button data-node-id="${node.id}" class="buddyforms-sf-edit-step buddyforms-sf-btn">
@@ -421,7 +434,20 @@ function buddyforms_st_show_step_sidebar($sidebar, node) {
         </div>
     `);
 
-    buddyforms_sf_show_sidebar($sidebar, 'step');
+    buddyforms_sf_show_sidebar(form_slug, 'block');
+}
+
+/**
+ * @param {string} form_slug 
+ * @param {Object} node 
+ */
+function buddyforms_st_show_field_sidebar(form_slug, node) {
+    $block_sidebar = jQuery(`#tab-block-${form_slug}`);
+    $block_sidebar.html(`
+        <h2>Field Name: ${node.name}</h2>`
+    );
+
+    buddyforms_sf_show_sidebar(form_slug, 'block');
 }
 
 function buddyforms_sf_get_current_form() {

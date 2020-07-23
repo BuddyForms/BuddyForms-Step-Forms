@@ -242,32 +242,53 @@
 /****************
 **** Sidebar ****
 *****************/
-.buddyforms-sf-sidebar {
-    background-color: #F9F9F9;
+.buddyforms-sf .buddyforms-sf-sidebar {
+    background-color: #fff;
+    padding: 0;
 }
 .buddyforms-sf-sidebar h2 {
     margin-bottom: 1rem;
 }
 
-.buddyforms-sf-sidebar .buddyfoms-sf-global-sidebar,
-.buddyforms-sf-sidebar .buddyfoms-sf-step-sidebar,
-.buddyforms-sf-sidebar .buddyfoms-sf-field-sidebar {
+.buddyforms-sf-sidebar-tabs {
     position: relative;
-    display: none;
-    height: calc(100% - 45px);
+    height: calc(100% - 60px);
 }
 
-.buddyforms-sf-sidebar .show { display: block !important; }
+.buddyfoms-sf-global-sidebar-actions {
+    height: 60px;
+    border-top: 1px solid rgba(214, 214, 214, 0.5);
+    padding: 15px;
+    text-align: right;
+    background-color: #F9F9F9;
+}
+
+.buddyfoms-sf-global-sidebar,
+.buddyfoms-sf-block-sidebar {
+    padding: 15px;
+}
 
 .buddyforms-sf-sidebar .buddyfoms-sf-global-sidebar .buddyfoms-sf-shortcode {
     margin: 2rem 0;
 }
 
-.buddyfoms-sf-global-sidebar-actions {
-    height: 45px;
-    border-top: 1px solid rgba(214, 214, 214, 0.65);
-    padding-top: 15px;
-    text-align: right;
+.buddyforms-sf-sidebar-tabs .ui-tabs-nav {
+    background-color: #F9F9F9;
+    border-bottom: 1px solid rgba(214, 214, 214, 0.5);
+}
+.buddyforms-sf-sidebar-tabs .ui-tabs-nav li {
+    padding: 15px;
+    display: inline-block;
+}
+.buddyforms-sf-sidebar-tabs .ui-tabs-nav li.ui-state-active {
+    box-shadow: inset 0 -3px #007cba;
+    font-weight: 600;
+}
+.buddyforms-sf-sidebar-tabs .ui-tabs-nav .ui-tabs-anchor {
+    outline: none;
+    box-shadow: none;
+    color: #6C6C6C;
+    font-weight: inherit;
 }
 
 /*******************
