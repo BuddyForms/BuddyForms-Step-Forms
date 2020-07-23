@@ -404,7 +404,10 @@ function buddyforms_st_show_global_sidebar(form_slug) {
         <p class="buddyfoms-sf-no-block-selected">
             No block selected.
         </p>
-    `); 
+    `);
+
+    // Deselect all node.
+    jQuery('#step-' + form_slug).tree('selectNode', null);
 
     buddyforms_sf_show_sidebar(form_slug, 'global');
 }

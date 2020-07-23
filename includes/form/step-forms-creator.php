@@ -122,7 +122,11 @@ function buddyforms_step_forms_screen_content() {
 												?> 
 											</p>
 										</div>
-										<div id="tab-block-<?php echo $slug; ?>" class="buddyfoms-sf-block-sidebar"></div>
+										<div id="tab-block-<?php echo $slug; ?>" class="buddyfoms-sf-block-sidebar">
+											<p class="buddyfoms-sf-no-block-selected">
+												No block selected.
+											</p>
+										</div>
 									</div>
 									<div class="buddyfoms-sf-global-sidebar-actions">
 										<button 
